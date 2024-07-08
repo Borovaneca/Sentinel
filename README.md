@@ -25,7 +25,7 @@ Before you begin, ensure you have the following:
 
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/anti-phishing-discord-bot.git
+    git clone https://github.com/Borovaneca/sentinel.git
     cd anti-phishing-discord-bot
     ```
 
@@ -40,11 +40,11 @@ Before you begin, ensure you have the following:
       ```
 
 3. **Configure the Bot:**
-    - Rename `config.example.properties` to `config.properties` and add your bot token and other configuration details.
+    - Ajust `application.properties` and add your bot token and other configuration details.
 
 4. **Run the Bot:**
     ```bash
-    java -jar target/anti-phishing-discord-bot.jar
+    java -jar target/sentinel.jar
     ```
 
 ### Usage
@@ -53,4 +53,3 @@ Once the bot is running, it will automatically start monitoring messages in your
 
 - `/add-site <domain>`: Add a site to the whitelist.
 - `/remove-site <domain>`: Remove a site from the whitelist.
-- `/status`: Check the bot's status and settings.
