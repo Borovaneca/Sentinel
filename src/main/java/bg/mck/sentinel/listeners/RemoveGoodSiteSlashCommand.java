@@ -24,15 +24,9 @@ public class RemoveGoodSiteSlashCommand extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals("remove-site")) return;
-        if (event.getMember().getRoles().stream().noneMatch(role -> role.getId().equals(OWNER_ID))) return;
-
 
         OptionMapping domain = event.getOption("domain");
 
-        if (domain == null) {
-            event.reply("Please provide a domain!").queue();
-            return;
-        }
 
         if (goodSiteService.findByDomain(domain.getAsString()) == null) {
             event.reply("This domain is not in the list!").queue();

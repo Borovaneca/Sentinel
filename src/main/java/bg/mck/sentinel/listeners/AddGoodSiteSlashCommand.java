@@ -25,13 +25,7 @@ public class AddGoodSiteSlashCommand extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals("add-site")) return;
 
-        if (event.getMember().getRoles().stream().noneMatch(role -> role.getId().equals(OWNER_ID))) return;
-
         OptionMapping name = event.getOption("domain");
-        if (name == null) {
-            event.reply("Please provide a name!").queue();
-            return;
-        }
 
         if (goodSiteService.findByDomain(name.getAsString()) != null) {
             event.reply("This domain is already in the list!").queue();
