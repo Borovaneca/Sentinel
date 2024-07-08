@@ -30,8 +30,8 @@ public class GoodSiteService {
         goodSiteRepository.findByDomain(domain).ifPresent(goodSiteRepository::delete);
     }
 
-    public GoodSite findByDomain(String asString) {
-        return goodSiteRepository.findByDomain(asString).orElse(null);
+    public GoodSite findByDomain(String domain) {
+        return goodSiteRepository.findByDomain(domain).orElse(null);
     }
 
     public List<GoodSite> getAll() {

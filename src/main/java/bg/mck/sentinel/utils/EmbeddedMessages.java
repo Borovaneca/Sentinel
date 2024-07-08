@@ -17,7 +17,7 @@ public class EmbeddedMessages {
 
 
     public static MessageEmbed getMessageWithAllDomains(String domains) {
-          return new EmbedBuilder().setAuthor(BOT_NAME, null, BOT_ICON)
+        return new EmbedBuilder().setAuthor(BOT_NAME, null, BOT_ICON)
                 .setTitle(TITLE).setDescription(String.format(DESCRIPTION, domains))
                 .setThumbnail(THUMBNAIL_URL)
                 .setColor(Color.decode(MESSAGE_DOMAINS_COLOR))

@@ -27,14 +27,15 @@ public class RemoveGoodSiteSlashCommand extends ListenerAdapter {
         if (!event.getName().equals(REMOVE_SITE_COMMAND)) return;
 
         OptionMapping domain = event.getOption(OPTION_DOMAIN);
+        String domainName = domain.getAsString().toLowerCase();
 
 
-        if (goodSiteService.findByDomain(domain.getAsString()) == null) {
-            event.reply(String.format(DOMAIN_DOES_NOT_EXIST, domain.getAsString())).queue();
+        if (goodSiteService.findByDomain(domainName) == null) {
+            event.reply(String.format(DOMAIN_DOES_NOT_EXIST, domainName)).queue();
             return;
         }
 
-        goodSiteService.remove(domain.getAsString());
-        event.reply(String.format(REMOVE_DOMAIN_SUCCESS, domain.getAsString())).queue();
+        goodSiteService.remove(domainName);
+        event.reply(String.format(REMOVE_DOMAIN_SUCCESS, domainName)).queue();
     }
 }

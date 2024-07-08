@@ -27,14 +27,15 @@ public class AddGoodSiteSlashCommand extends ListenerAdapter {
         if (!event.getName().equals(ADD_SITE_COMMAND)) return;
 
         OptionMapping name = event.getOption(OPTION_DOMAIN);
+        String domainName = name.getAsString().toLowerCase();
 
-        if (goodSiteService.findByDomain(name.getAsString()) != null) {
+        if (goodSiteService.findByDomain(domainName) != null) {
             event.reply(String.format(DOMAIN_ALREADY_EXISTS, name.getAsString())).queue();
             return;
         }
 
-        GoodSite goodSite = GoodSite.builder().domain(name.getAsString()).build();
+        GoodSite goodSite = GoodSite.builder().domain(domainName).build();
         goodSiteService.save(goodSite);
-        event.reply(String.format(ADD_DOMAIN_SUCCESS, name.getAsString())).queue();
+        event.reply(String.format(ADD_DOMAIN_SUCCESS, domainName)).queue();
     }
 }
