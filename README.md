@@ -17,7 +17,7 @@ Welcome to the **Sentinel Discord Bot** repository! This powerful bot is designe
 
 Before you begin, ensure you have the following:
 
-- [Java JDK 20+](https://www.oracle.com/java/technologies/javase-jdk20-downloads.html) installed
+- [Java JDK 20+](https://www.oracle.com/java/technologies/downloads/) installed
 - A Discord bot token from the [Discord Developer Portal](https://discord.com/developers/applications)
 - Administrative access to the Discord server you want to protect
 
