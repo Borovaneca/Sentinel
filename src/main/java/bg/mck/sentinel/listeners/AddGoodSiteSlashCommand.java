@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static bg.mck.sentinel.constants.ImportantID.LOG_CHANNEL_ID;
-import static bg.mck.sentinel.constants.ImportantID.OWNER_ID;
 
 @Component
 public class AddGoodSiteSlashCommand extends ListenerAdapter {
