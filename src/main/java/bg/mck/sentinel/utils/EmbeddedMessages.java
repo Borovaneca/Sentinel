@@ -2,12 +2,8 @@ package bg.mck.sentinel.utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import org.apache.logging.log4j.message.TimestampMessage;
 
 import java.awt.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
 
 public class EmbeddedMessages {
 
