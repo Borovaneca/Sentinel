@@ -1,6 +1,6 @@
 # Anti-Phishing Discord Bot 🤖
 
-Welcome to the **Sentinel Discord Bot** repository! This powerful bot is designed to keep our SoftUni Discord Community servers safe by monitoring every message for phishing attempts or harmful sites. Our bot uses advanced algorithms to detect and alert you about potential threats, ensuring our community stays protected.
+Welcome to the **Sentinel Discord Bot** repository! This powerful bot is designed to keep your Discord server safe by monitoring every message for phishing attempts or harmful sites. Our bot uses advanced algorithms to detect and alert you about potential threats, ensuring your community stays protected.
 
 
 ## Features ✨
