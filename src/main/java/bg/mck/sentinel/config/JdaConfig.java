@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,9 +24,12 @@ import static bg.mck.sentinel.constants.ImportantID.GUILD_ID;
 @Configuration
 public class JdaConfig {
 
+    @Value("${BOT_TOKEN}")
+    private String BOT_TOKEN;
+
     @Bean
     public JDA startJda() throws InterruptedException {
-        JDABuilder builder = JDABuilder.createDefault(System.getenv("BOT_TOKEN"))
+        JDABuilder builder = JDABuilder.createDefault(BOT_TOKEN)
                 .enableIntents(
                         GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.GUILD_MESSAGE_REACTIONS,
