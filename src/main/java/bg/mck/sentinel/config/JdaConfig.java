@@ -30,8 +30,10 @@ public class JdaConfig {
     public JDA startJda() throws InterruptedException {
         JDABuilder builder = JDABuilder.createDefault(BOT_TOKEN)
                 .enableIntents(
+                        GatewayIntent.GUILD_MEMBERS,
+                        GatewayIntent.GUILD_PRESENCES,
                         GatewayIntent.GUILD_MESSAGES,
-                        GatewayIntent.GUILD_MESSAGE_REACTIONS,
+                        GatewayIntent.DIRECT_MESSAGES,
                         GatewayIntent.MESSAGE_CONTENT);
         Adapters.getAdapterListeners().forEach(builder::addEventListeners);
 
@@ -39,6 +41,13 @@ public class JdaConfig {
 
         List<CommandData> commandData = getAllCommands();
 
+        Guild basics = jda.getGuildById(GUILD_BASICS_ID);
+        Guild fundamentals = jda.getGuildById(GUILD_FUNDAMENTALS_ID);
+        Guild test = jda.getGuildById(GUILD_TEST_ID);
+
+//        if (basics != null) basics.updateCommands().addCommands(commandData).queue();
+//        if (fundamentals != null) fundamentals.updateCommands().addCommands(commandData).queue();
+//        if (test != null) test.updateCommands().addCommands(commandData).queue();
 
         List.of(jda.getGuildById(GUILD_BASICS_ID), jda.getGuildById(GUILD_FUNDAMENTALS_ID),
                         jda.getGuildById(GUILD_TEST_ID))

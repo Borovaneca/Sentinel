@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,6 +53,6 @@ public class GoodSiteListener extends ListenerAdapter {
     }
 
     private void sendRemovingMessage(Guild guild, String memberId, String channelId, String removedMessage) {
-        guild.getTextChannelById(channelId).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, guild.getMemberById(memberId).getAsMention(), removedMessage)).queue();
+        Objects.requireNonNull(guild.getTextChannelById(channelId)).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, guild.getMemberById(memberId).getAsMention(), removedMessage)).queue();
     }
 }

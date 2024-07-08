@@ -36,6 +36,6 @@ public class AddGoodSiteSlashCommand extends ListenerAdapter {
 
         GoodSite goodSite = GoodSite.builder().domain(domainName).build();
         goodSiteService.save(goodSite);
-        event.reply(String.format(ADD_DOMAIN_SUCCESS, domainName)).queue();
+        event.reply(String.format(ADD_DOMAIN_SUCCESS, domainName)).setEphemeral(true).queue();
     }
 }

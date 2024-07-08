@@ -36,6 +36,7 @@ public class RemoveGoodSiteSlashCommand extends ListenerAdapter {
         }
 
         goodSiteService.remove(domainName);
-        event.reply(String.format(REMOVE_DOMAIN_SUCCESS, domainName)).queue();
+
+        event.reply(String.format(REMOVE_DOMAIN_SUCCESS, domainName)).setEphemeral(true).queue();
     }
 }

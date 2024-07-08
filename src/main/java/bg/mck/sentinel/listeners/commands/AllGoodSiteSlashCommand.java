@@ -29,6 +29,6 @@ public class AllGoodSiteSlashCommand extends ListenerAdapter {
         List<String> domains = goodSiteService.getAll().stream().map(GoodSite::getDomain)
                 .toList();
 
-        event.replyEmbeds(EmbeddedMessages.getMessageWithAllDomains(String.join("\n", domains))).queue();
+        event.replyEmbeds(EmbeddedMessages.getMessageWithAllDomains(String.join("\n", domains))).setEphemeral(true).queue();
     }
 }
