@@ -37,6 +37,18 @@ public class JdaConfig {
 
         JDA jda = builder.build().awaitReady();
 
+        List<CommandData> commandData = getAllCommands();
+
+
+        List.of(jda.getGuildById(GUILD_BASICS_ID), jda.getGuildById(GUILD_FUNDAMENTALS_ID),
+                        jda.getGuildById(GUILD_TEST_ID))
+                .forEach(guild -> guild.updateCommands().addCommands(commandData).queue());
+
+
+        return jda;
+    }
+
+    private List<CommandData> getAllCommands() {
         List<CommandData> commandData = new ArrayList<>();
 
         OptionData option = new OptionData(OptionType.STRING, OPTION_DOMAIN, OPTION_DESCRIPTION, true);
@@ -45,12 +57,8 @@ public class JdaConfig {
                 .addOptions(option).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
         commandData.add(Commands.slash(REMOVE_SITE_COMMAND, REMOVE_SITE_DESCRIPTION).addOptions(option)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
-
-        List.of(jda.getGuildById(GUILD_BASICS_ID), jda.getGuildById(GUILD_FUNDAMENTALS_ID),
-                        jda.getGuildById(GUILD_TEST_ID))
-                .forEach(guild -> guild.updateCommands().addCommands(commandData).queue());
-
-
-        return jda;
+        commandData.add(Commands.slash(ALL_DOMAINS_COMMAND, ALL_DOMAINS_COMMAND_DESCRIPTION)
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
+        return commandData;
     }
 }

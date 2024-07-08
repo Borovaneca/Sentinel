@@ -5,6 +5,9 @@ import bg.mck.sentinel.reposotories.GoodSiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class GoodSiteService {
 
@@ -30,5 +33,9 @@ public class GoodSiteService {
 
     public GoodSite findByDomain(String domain) {
         return goodSiteRepository.findByDomain(domain).orElse(null);
+    }
+
+    public List<GoodSite> getAll() {
+        return goodSiteRepository.findAll();
     }
 }

@@ -7,6 +7,8 @@ public class ImportantConstants {
     public static final String LOG_CHANNEL_FUNDAMENTALS_ID = "1259527477311574056";
     public static final String LOG_CHANNEL_TEST_ID = "1259532546530742295";
     public static final String GUILD_FUNDAMENTALS_ID = "954298970799243285";
+    public static final String ALL_DOMAINS_COMMAND = "all-domains";
+    public static final String ALL_DOMAINS_COMMAND_DESCRIPTION = "Shows all domains in the database.";
 
     public static final String OPTION_DOMAIN = "domain";
     public static final String OPTION_DESCRIPTION = "Domain of the site.";
