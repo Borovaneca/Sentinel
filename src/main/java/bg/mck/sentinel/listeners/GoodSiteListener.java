@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static bg.mck.sentinel.constants.ImportantID.LOG_CHANNEL_ID;
+import static bg.mck.sentinel.constants.ImportantConstants.LOG_CHANNEL_ID;
+import static bg.mck.sentinel.constants.ImportantConstants.OPTION_DOMAIN;
+import static bg.mck.sentinel.constants.Messages.BAD_URL_DETECTED_MESSAGE;
 
 @Component
 public class GoodSiteListener extends ListenerAdapter {
@@ -33,9 +35,9 @@ public class GoodSiteListener extends ListenerAdapter {
 
         if (matcher.find()) {
 
-            String domain = matcher.group("domain");
+            String domain = matcher.group(OPTION_DOMAIN);
             if (!goodSiteService.isGoodSite(domain)) {
-                event.getGuild().getTextChannelById(LOG_CHANNEL_ID).sendMessage("A user: " +event.getAuthor().getAsMention() + " used suspicious link -> " + message).queue();
+                event.getGuild().getTextChannelById(LOG_CHANNEL_ID).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, event.getMember().getAsMention(), message)).queue();
                 event.getMessage().delete().queue();
             }
         }

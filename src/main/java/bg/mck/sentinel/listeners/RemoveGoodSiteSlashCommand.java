@@ -7,8 +7,9 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static bg.mck.sentinel.constants.ImportantID.LOG_CHANNEL_ID;
-import static bg.mck.sentinel.constants.ImportantID.OWNER_ID;
+import static bg.mck.sentinel.constants.ImportantConstants.*;
+import static bg.mck.sentinel.constants.Replies.DOMAIN_DOES_NOT_EXIST;
+import static bg.mck.sentinel.constants.Replies.REMOVE_DOMAIN_SUCCESS;
 
 @Component
 public class RemoveGoodSiteSlashCommand extends ListenerAdapter {
@@ -23,18 +24,17 @@ public class RemoveGoodSiteSlashCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("remove-site")) return;
+        if (!event.getName().equals(REMOVE_SITE_COMMAND)) return;
 
-        OptionMapping domain = event.getOption("domain");
+        OptionMapping domain = event.getOption(OPTION_DOMAIN);
 
 
         if (goodSiteService.findByDomain(domain.getAsString()) == null) {
-            event.reply("This domain is not in the list!").queue();
+            event.reply(String.format(DOMAIN_DOES_NOT_EXIST, domain.getAsString())).queue();
             return;
         }
 
         goodSiteService.remove(domain.getAsString());
-        event.reply("Successfully removed " + domain.getAsString()).queue();
-        event.getJDA().getTextChannelById(LOG_CHANNEL_ID).sendMessage("Hey guys, " + event.getMember().getAsMention() + " REMOVED " + domain.getAsString() + " from the good sites list!").queue();
+        event.reply(String.format(REMOVE_DOMAIN_SUCCESS, domain.getAsString())).queue();
     }
 }

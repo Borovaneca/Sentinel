@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -19,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static bg.mck.sentinel.constants.ImportantID.GUILD_ID;
+import static bg.mck.sentinel.constants.ImportantConstants.*;
 
 @Configuration
 public class JdaConfig {
@@ -40,11 +39,11 @@ public class JdaConfig {
 
         List<CommandData> commandData = new ArrayList<>();
 
-        OptionData option = new OptionData(OptionType.STRING, "domain", "The name of the site.", true);
+        OptionData option = new OptionData(OptionType.STRING, OPTION_DOMAIN, OPTION_DESCRIPTION, true);
 
-        commandData.add(Commands.slash("add-site", "Adds a good site to the database.")
+        commandData.add(Commands.slash(ADD_SITE_COMMAND, ADD_DOMAIN_DESCRIPTION)
                 .addOptions(option).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
-        commandData.add(Commands.slash("remove-site", "Removing site from the database.").addOptions(option)
+        commandData.add(Commands.slash(REMOVE_SITE_COMMAND, REMOVE_SITE_DESCRIPTION).addOptions(option)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
 
         Guild guild = jda.getGuildById(GUILD_ID);
