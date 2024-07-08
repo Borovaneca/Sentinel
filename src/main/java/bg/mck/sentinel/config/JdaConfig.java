@@ -46,10 +46,9 @@ public class JdaConfig {
         commandData.add(Commands.slash(REMOVE_SITE_COMMAND, REMOVE_SITE_DESCRIPTION).addOptions(option)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
 
-        Guild guild = jda.getGuildById(GUILD_ID);
-        if (guild != null) {
-            guild.updateCommands().addCommands(commandData).queue();
-        }
+        List.of(jda.getGuildById(GUILD_BASICS_ID), jda.getGuildById(GUILD_FUNDAMENTALS_ID),
+                        jda.getGuildById(GUILD_TEST_ID))
+                .forEach(guild -> guild.updateCommands().addCommands(commandData).queue());
 
 
         return jda;
