@@ -1,4 +1,4 @@
-package bg.mck.sentinel.listeners;
+package bg.mck.sentinel.listeners.commands;
 
 import bg.mck.sentinel.service.GoodSiteService;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

@@ -1,8 +1,8 @@
 package bg.mck.sentinel.utils;
 
-import bg.mck.sentinel.listeners.AddGoodSiteSlashCommand;
+import bg.mck.sentinel.listeners.commands.AddGoodSiteSlashCommand;
 import bg.mck.sentinel.listeners.GoodSiteListener;
-import bg.mck.sentinel.listeners.RemoveGoodSiteSlashCommand;
+import bg.mck.sentinel.listeners.commands.RemoveGoodSiteSlashCommand;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
