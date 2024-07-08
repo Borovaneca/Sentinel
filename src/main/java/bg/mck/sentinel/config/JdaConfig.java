@@ -45,6 +45,8 @@ public class JdaConfig {
                 .addOptions(option).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
         commandData.add(Commands.slash(REMOVE_SITE_COMMAND, REMOVE_SITE_DESCRIPTION).addOptions(option)
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
+        commandData.add(Commands.slash(ALL_DOMAINS_COMMAND, ALL_DOMAINS_COMMAND_DESCRIPTION)
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
 
         Guild guild = jda.getGuildById(GUILD_ID);
         if (guild != null) {

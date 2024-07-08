@@ -10,4 +10,6 @@ public class ImportantConstants {
     public static final String ADD_SITE_COMMAND = "add-site";
     public static final String REMOVE_SITE_COMMAND = "remove-site";
     public static final String REMOVE_SITE_DESCRIPTION = "Removing site from the database.";
+    public static final String ALL_DOMAINS_COMMAND = "all-domains";
+    public static final String ALL_DOMAINS_COMMAND_DESCRIPTION = "Shows all the domains in the database.";
 }
