@@ -38,21 +38,23 @@ public class GoodSiteListener extends ListenerAdapter {
 
             String domain = matcher.group(OPTION_DOMAIN).toLowerCase();
             if (!goodSiteService.isGoodSite(domain)) {
+                String memberName = event.getMember().getAsMention();
 
                 if (event.getGuild().getId().equals(GUILD_BASICS_ID)) {
-                    sendRemovingMessage(event.getGuild(), event.getMember().getId(), LOG_CHANNEL_BASICS_ID, message);
+                    sendRemovingMessage(event.getGuild(), memberName, LOG_CHANNEL_BASICS_ID, message);
 
                 } else if (event.getGuild().getId().equals(GUILD_FUNDAMENTALS_ID)) {
-                    sendRemovingMessage(event.getGuild(), event.getMember().getId(), LOG_CHANNEL_FUNDAMENTALS_ID, message);
+                    sendRemovingMessage(event.getGuild(), memberName, LOG_CHANNEL_FUNDAMENTALS_ID, message);
 
                 } else {
-                    sendRemovingMessage(event.getGuild(), event.getMember().getId(), LOG_CHANNEL_TEST_ID, message);
+                    sendRemovingMessage(event.getGuild(), memberName, LOG_CHANNEL_TEST_ID, message);
                 }
+                event.getMessage().delete().queue();
             }
         }
     }
 
-    private void sendRemovingMessage(Guild guild, String memberId, String channelId, String removedMessage) {
-        Objects.requireNonNull(guild.getTextChannelById(channelId)).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, guild.getMemberById(memberId).getAsMention(), removedMessage)).queue();
+    private void sendRemovingMessage(Guild guild, String memberName, String channelId, String removedMessage) {
+        guild.getTextChannelById(channelId).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, memberName, removedMessage)).queue();
     }
 }
