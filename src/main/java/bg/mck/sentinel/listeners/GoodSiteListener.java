@@ -18,7 +18,7 @@ import static bg.mck.sentinel.constants.Messages.BAD_URL_DETECTED_MESSAGE;
 public class GoodSiteListener extends ListenerAdapter {
 
     private final GoodSiteService goodSiteService;
-    private final String regex = "^(?<protocol>https?:\\/\\/)?(?<subdomain>www.)?(?<domain>\\w+)+.(?<end>[a-zA-z]{2,})";
+    private final String regex = "^(?<protocol>https?:\\/\\/)?(?<subdomain>www.|teams.)?(?<domain>\\w+)+.(?<end>[a-zA-z]{2,})";
 
     @Autowired
     public GoodSiteListener(GoodSiteService goodSiteService) {
