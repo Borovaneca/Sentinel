@@ -8,7 +8,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static bg.mck.sentinel.constants.ImportantConstants.*;
+import static bg.mck.sentinel.constants.Commands.ADD_SITE_COMMAND;
+import static bg.mck.sentinel.constants.Commands.OPTION_DOMAIN;
 import static bg.mck.sentinel.constants.Replies.ADD_DOMAIN_SUCCESS;
 import static bg.mck.sentinel.constants.Replies.DOMAIN_ALREADY_EXISTS;
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static bg.mck.sentinel.constants.ImportantConstants.ALL_DOMAINS_COMMAND;
+import static bg.mck.sentinel.constants.Commands.ALL_DOMAINS_COMMAND;
 
 @Component
 public class AllGoodSiteSlashCommand extends ListenerAdapter {

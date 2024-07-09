@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -23,7 +22,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static bg.mck.sentinel.constants.ImportantConstants.*;
+import static bg.mck.sentinel.constants.Commands.*;
+import static bg.mck.sentinel.constants.Identification.*;
 
 @Configuration
 public class JdaConfig {
@@ -41,7 +41,7 @@ public class JdaConfig {
                         GatewayIntent.DIRECT_MESSAGES,
                         GatewayIntent.MESSAGE_CONTENT)
                 .setStatus(OnlineStatus.ONLINE)
-                .setActivity(Activity.competing("House of the dragon - TEAM BLACK"))
+                .setActivity(Activity.competing("HOD - TEAM BLACK"))
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(CacheFlag.ONLINE_STATUS);

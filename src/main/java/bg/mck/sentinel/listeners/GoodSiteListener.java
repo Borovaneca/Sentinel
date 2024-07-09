@@ -1,6 +1,7 @@
 package bg.mck.sentinel.listeners;
 
 import bg.mck.sentinel.service.GoodSiteService;
+import bg.mck.sentinel.utils.ChannelValidator;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static bg.mck.sentinel.constants.ImportantConstants.*;
+import static bg.mck.sentinel.constants.Commands.OPTION_DOMAIN;
+import static bg.mck.sentinel.constants.Identification.*;
 import static bg.mck.sentinel.constants.Messages.BAD_URL_DETECTED_MESSAGE;
 
 @Component
@@ -27,6 +29,8 @@ public class GoodSiteListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
+
+        if (ChannelValidator.isChannelFreeToUseAllDomain(event.getChannel().getId())) return;
 
         String message = event.getMessage().getContentRaw();
         Pattern pattern = Pattern.compile(regex);
