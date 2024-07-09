@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +17,7 @@ import static bg.mck.sentinel.constants.Messages.BAD_URL_DETECTED_MESSAGE;
 public class GoodSiteListener extends ListenerAdapter {
 
     private final GoodSiteService goodSiteService;
-    private final String regex = "^(?<protocol>https?:\\/\\/)?(?<subdomain>www.|teams.)?(?<domain>\\w+)+.(?<end>[a-zA-z]{2,})";
+    private final String regex = "^(?<protocol>https?:\\/\\/)?(?<subdomain>www.|teams.|admin.|accounts.|judge.|support.)?(?<domain>\\w+)+.(?<end>[a-zA-z]{2,})";
 
     @Autowired
     public GoodSiteListener(GoodSiteService goodSiteService) {

@@ -3,7 +3,9 @@ package bg.mck.sentinel.config;
 import bg.mck.sentinel.utils.Adapters;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -11,6 +13,9 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,20 +39,17 @@ public class JdaConfig {
                         GatewayIntent.GUILD_PRESENCES,
                         GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.DIRECT_MESSAGES,
-                        GatewayIntent.MESSAGE_CONTENT);
+                        GatewayIntent.MESSAGE_CONTENT)
+                .setStatus(OnlineStatus.ONLINE)
+                .setActivity(Activity.competing("House of the dragon - TEAM BLACK"))
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setChunkingFilter(ChunkingFilter.ALL)
+                .enableCache(CacheFlag.ONLINE_STATUS);
         Adapters.getAdapterListeners().forEach(builder::addEventListeners);
 
         JDA jda = builder.build().awaitReady();
 
         List<CommandData> commandData = getAllCommands();
-
-        Guild basics = jda.getGuildById(GUILD_BASICS_ID);
-        Guild fundamentals = jda.getGuildById(GUILD_FUNDAMENTALS_ID);
-        Guild test = jda.getGuildById(GUILD_TEST_ID);
-
-//        if (basics != null) basics.updateCommands().addCommands(commandData).queue();
-//        if (fundamentals != null) fundamentals.updateCommands().addCommands(commandData).queue();
-//        if (test != null) test.updateCommands().addCommands(commandData).queue();
 
         List.of(jda.getGuildById(GUILD_BASICS_ID), jda.getGuildById(GUILD_FUNDAMENTALS_ID),
                         jda.getGuildById(GUILD_TEST_ID))
@@ -63,11 +65,11 @@ public class JdaConfig {
         OptionData option = new OptionData(OptionType.STRING, OPTION_DOMAIN, OPTION_DESCRIPTION, true);
 
         commandData.add(Commands.slash(ADD_SITE_COMMAND, ADD_DOMAIN_DESCRIPTION)
-                .addOptions(option).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
+                .addOptions(option).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
         commandData.add(Commands.slash(REMOVE_SITE_COMMAND, REMOVE_SITE_DESCRIPTION).addOptions(option)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
         commandData.add(Commands.slash(ALL_DOMAINS_COMMAND, ALL_DOMAINS_COMMAND_DESCRIPTION)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_PERMISSIONS)));
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
         return commandData;
     }
 }
