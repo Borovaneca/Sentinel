@@ -51,5 +51,6 @@ Before you begin, ensure you have the following:
 
 Once the bot is running, it will automatically start monitoring messages in your server. You can interact with the bot using the following commands:
 
-- `/add-site <domain>`: Add a site to the whitelist.
-- `/remove-site <domain>`: Remove a site from the whitelist.
+- `/add-domain <domain>`: Add a domain to the whitelist.
+- `/remove-site <domain>`: Remove a domain from the whitelist.
+- - `/all-domains`: Show all domains from the whitelist.
