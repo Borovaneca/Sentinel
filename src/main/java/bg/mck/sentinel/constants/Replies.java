@@ -1,7 +1,6 @@
 package bg.mck.sentinel.constants;
 
-public enum Replies {
-    ;
+public final class Replies {
     public static final String ADD_DOMAIN_SUCCESS = "Domain %s added successfully!";
     public static final String REMOVE_DOMAIN_SUCCESS = "Domain %s removed successfully!";
     public static final String DOMAIN_ALREADY_EXISTS = "Domain %s already exists!";

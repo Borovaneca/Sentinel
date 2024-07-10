@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-import static bg.mck.sentinel.constants.Identification.*;
-
 @Configuration
 public class JdaConfig {
 
