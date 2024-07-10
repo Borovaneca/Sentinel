@@ -1,0 +1,29 @@
+package bg.mck.sentinel.listeners.commands;
+
+import bg.mck.sentinel.listeners.EventListener;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class SlashCommandListener extends ListenerAdapter implements EventListener {
+
+    private List<SlashCommandProcessor> processors;
+
+    public SlashCommandListener(List<SlashCommandProcessor> processors) {
+        this.processors = processors;
+    }
+
+    @Override
+    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        processors.stream()
+                .filter(processor -> processor.getCommandName().equals(event.getName()))
+                .findFirst()
+                .ifPresentOrElse(
+                        processor -> processor.process(event),
+                        () -> event.reply("Command not supported!").setEphemeral(true).queue()
+                );
+    }
+}

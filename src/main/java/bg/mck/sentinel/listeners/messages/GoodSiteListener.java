@@ -1,7 +1,9 @@
-package bg.mck.sentinel.listeners;
+package bg.mck.sentinel.listeners.messages;
 
+import bg.mck.sentinel.config.GuildProperties;
+import bg.mck.sentinel.config.UnProtectedChannelProperties;
+import bg.mck.sentinel.listeners.EventListener;
 import bg.mck.sentinel.service.GoodSiteService;
-import bg.mck.sentinel.utils.ChannelValidator;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,26 +13,27 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static bg.mck.sentinel.constants.Commands.OPTION_DOMAIN;
-import static bg.mck.sentinel.constants.Identification.*;
 import static bg.mck.sentinel.constants.Messages.BAD_URL_DETECTED_MESSAGE;
 
 @Component
-public class GoodSiteListener extends ListenerAdapter {
+public class GoodSiteListener extends ListenerAdapter implements EventListener {
 
     private final GoodSiteService goodSiteService;
-    private final String regex = "^(?<protocol>https?:\\/\\/)?(?<subdomain>www.|teams.|admin.|accounts.|judge.|support.)?(?<domain>\\w+)+.(?<end>[a-zA-z]{2,})";
+    private final GuildProperties guildProperties;
+    private final UnProtectedChannelProperties unProtectedChannelProperties;
+    private final String regex = "^(?<protocol>https?:\\/\\/)?(?<subdomain>www.|platform.|teams.|admin.|accounts.|judge.|support.)?(?<domain>\\w+)+.(?<end>[a-zA-z]{2,})";
 
     @Autowired
-    public GoodSiteListener(GoodSiteService goodSiteService) {
+    public GoodSiteListener(GoodSiteService goodSiteService, GuildProperties guildProperties, UnProtectedChannelProperties unProtectedChannelProperties) {
         this.goodSiteService = goodSiteService;
+        this.guildProperties = guildProperties;
+        this.unProtectedChannelProperties = unProtectedChannelProperties;
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-
-        if (ChannelValidator.isChannelFreeToUseAllDomain(event.getChannel().getId())) return;
+        if (unProtectedChannelProperties.isChannelFreeToUseAllDomain(event.getChannel().getId())) return;
 
         String message = event.getMessage().getContentRaw();
         Pattern pattern = Pattern.compile(regex);
@@ -39,19 +42,11 @@ public class GoodSiteListener extends ListenerAdapter {
 
         if (matcher.find()) {
 
-            String domain = matcher.group(OPTION_DOMAIN).toLowerCase();
+            String domain = matcher.group("domain").toLowerCase();
             if (!goodSiteService.isGoodSite(domain)) {
                 String memberName = event.getMember().getAsMention();
 
-                if (event.getGuild().getId().equals(GUILD_BASICS_ID)) {
-                    sendRemovingMessage(event.getGuild(), memberName, LOG_CHANNEL_BASICS_ID, message);
-
-                } else if (event.getGuild().getId().equals(GUILD_FUNDAMENTALS_ID)) {
-                    sendRemovingMessage(event.getGuild(), memberName, LOG_CHANNEL_FUNDAMENTALS_ID, message);
-
-                } else {
-                    sendRemovingMessage(event.getGuild(), memberName, LOG_CHANNEL_TEST_ID, message);
-                }
+                sendRemovingMessage(event.getGuild(), memberName, guildProperties.getChannels().get(event.getGuild().getId()), message);;
                 event.getMessage().delete().queue();
             }
         }
