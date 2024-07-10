@@ -53,3 +53,4 @@ Once the bot is running, it will automatically start monitoring messages in your
 
 - `/add-domain <domain>`: Add a site to the whitelist.
 - `/remove-domain <domain>`: Remove a site from the whitelist.
+- `/all-domains`: Show all domains from the whitelist.
