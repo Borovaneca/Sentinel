@@ -5,6 +5,7 @@ import bg.mck.sentinel.service.GoodSiteService;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class AllGoodSiteProcessor implements SlashCommandProcessor {
 
     private final GoodSiteService goodSiteService;
 
+    @Value("${jda.bot.commands[0].name}")
+    private String commandName;
+
     @Autowired
     public AllGoodSiteProcessor(GoodSiteService goodSiteService) {
         this.goodSiteService = goodSiteService;
@@ -21,7 +25,7 @@ public class AllGoodSiteProcessor implements SlashCommandProcessor {
 
     @Override
     public String getCommandName() {
-        return "all-domains";
+        return commandName;
     }
 
     @Override

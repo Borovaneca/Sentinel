@@ -4,15 +4,20 @@ import bg.mck.sentinel.service.GoodSiteService;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import static bg.mck.sentinel.constants.Replies.DOMAIN_DOES_NOT_EXIST;
 import static bg.mck.sentinel.constants.Replies.REMOVE_DOMAIN_SUCCESS;
+import static bg.mck.sentinel.listeners.commands.AddDomainProcessor.OPTION_DOMAIN;
 
 @Component
 public class RemoveGoodSiteProcessor implements SlashCommandProcessor {
 
     private final GoodSiteService goodSiteService;
+
+    @Value("${jda.bot.commands[2].name}")
+    private String commandName;
 
     @Autowired
     public RemoveGoodSiteProcessor(GoodSiteService goodSiteService) {
@@ -21,12 +26,12 @@ public class RemoveGoodSiteProcessor implements SlashCommandProcessor {
 
     @Override
     public String getCommandName() {
-        return "remove-site";
+        return commandName;
     }
 
     @Override
     public void process(SlashCommandInteractionEvent event) {
-        OptionMapping domain = event.getOption("domain");
+        OptionMapping domain = event.getOption(OPTION_DOMAIN);
         String domainName = domain.getAsString().toLowerCase();
 
 

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static bg.mck.sentinel.constants.Replies.COMMAND_NOT_SUPPORTED;
+
 @Service
 public class SlashCommandListener extends ListenerAdapter implements EventListener {
 
@@ -23,7 +25,7 @@ public class SlashCommandListener extends ListenerAdapter implements EventListen
                 .findFirst()
                 .ifPresentOrElse(
                         processor -> processor.process(event),
-                        () -> event.reply("Command not supported!").setEphemeral(true).queue()
+                        () -> event.reply(COMMAND_NOT_SUPPORTED).setEphemeral(true).queue()
                 );
     }
 }

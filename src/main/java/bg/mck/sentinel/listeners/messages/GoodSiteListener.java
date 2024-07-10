@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static bg.mck.sentinel.constants.Messages.BAD_URL_DETECTED_MESSAGE;
+import static bg.mck.sentinel.listeners.commands.AddDomainProcessor.OPTION_DOMAIN;
 
 @Component
 public class GoodSiteListener extends ListenerAdapter implements EventListener {
@@ -42,7 +43,7 @@ public class GoodSiteListener extends ListenerAdapter implements EventListener {
 
         if (matcher.find()) {
 
-            String domain = matcher.group("domain").toLowerCase();
+            String domain = matcher.group(OPTION_DOMAIN).toLowerCase();
             if (!goodSiteService.isGoodSite(domain)) {
                 String memberName = event.getMember().getAsMention();
 

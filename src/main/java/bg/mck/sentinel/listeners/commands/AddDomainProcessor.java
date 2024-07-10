@@ -5,6 +5,7 @@ import bg.mck.sentinel.service.GoodSiteService;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import static bg.mck.sentinel.constants.Replies.ADD_DOMAIN_SUCCESS;
@@ -15,20 +16,26 @@ public class AddDomainProcessor implements SlashCommandProcessor {
 
     private final GoodSiteService goodSiteService;
 
+    @Value("${jda.bot.commands[1].name}")
+    private String commandName;
+
+    public static String OPTION_DOMAIN;
+
     @Autowired
-    public AddDomainProcessor(GoodSiteService goodSiteService) {
+    public AddDomainProcessor(GoodSiteService goodSiteService, @Value("${jda.bot.commands[1].options[0].name}") String OPTION_DOMAIN) {
+        AddDomainProcessor.OPTION_DOMAIN = OPTION_DOMAIN;
         this.goodSiteService = goodSiteService;
     }
 
     @Override
     public String getCommandName() {
-        return "add-site";
+        return commandName;
     }
 
     @Override
     public void process(SlashCommandInteractionEvent event) {
 
-        OptionMapping name = event.getOption("domain");
+        OptionMapping name = event.getOption(OPTION_DOMAIN);
         String domainName = name.getAsString().toLowerCase();
 
         if (goodSiteService.findByDomain(domainName) != null) {

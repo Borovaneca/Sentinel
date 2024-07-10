@@ -5,4 +5,5 @@ public final class Replies {
     public static final String REMOVE_DOMAIN_SUCCESS = "Domain %s removed successfully!";
     public static final String DOMAIN_ALREADY_EXISTS = "Domain %s already exists!";
     public static final String DOMAIN_DOES_NOT_EXIST = "Domain %s does not exist!";
+    public static final String COMMAND_NOT_SUPPORTED = "Command not supported!";
 }
