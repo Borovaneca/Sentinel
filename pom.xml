@@ -45,19 +45,6 @@
             <version>1.18.1</version>
         </dependency>
 
-        <!-- Selenium Java dependency -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.24.0</version>
-        </dependency>
-
-        <!-- WebDriverManager (optional, but recommended for managing driver binaries automatically) -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.4.1</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
