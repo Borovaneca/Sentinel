@@ -1,21 +1,23 @@
 package bg.mck.sentinel.scheduler;
 
-import bg.mck.sentinel.config.GuildProperties;
 import bg.mck.sentinel.config.ValuableMaterialsProperties;
 import bg.mck.sentinel.entities.Seminar;
 import bg.mck.sentinel.reposotories.SeminarRepository;
+import bg.mck.sentinel.service.SeminarService;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,24 +41,21 @@ public class SeminarScheduler {
 
     @Scheduled(cron = "0 0 12 * * ?")
     public void sendDailyMessage() {
-        System.setProperty("webdriver.chrome.driver", "/home/petyo/bin/chromedriver.exe");
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-
-        WebDriver driver = new ChromeDriver(options);
-
         try {
-            driver.get(SOFT_UNI_SEMINARS_URL);
+            BufferedReader in = SeminarService.getConnection();
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
 
-            Thread.sleep(5000);
-
-
-            List<WebElement> seminarElements = driver.findElements(By.cssSelector(".events-container-item"));
+            Document doc = Jsoup.parse(content.toString());
+            Elements seminarElements = doc.select(".events-container-item");
 
             List<Seminar> seminars = repository.findTop5ByOrderByIdDesc();
 
-            for (WebElement seminarElement : seminarElements) {
+            for (Element seminarElement : seminarElements) {
                 Seminar seminar = mapToSeminar(seminarElement);
                 if (!seminars.contains(seminar)) {
                     valuableMaterialsChannels.getChannels().forEach((guild, channel) -> {
@@ -69,10 +68,8 @@ public class SeminarScheduler {
                     repository.save(seminar);
                 }
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            driver.quit();
         }
     }
 }

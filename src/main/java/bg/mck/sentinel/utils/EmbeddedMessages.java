@@ -27,13 +27,15 @@ public class EmbeddedMessages {
     }
 
     public static MessageEmbed getSeminarMessage(Seminar seminar) {
+        String imageUrl = seminar.getImageUrl().trim();
+
         return new EmbedBuilder()
                 .setTitle(seminar.getTitle(), seminar.getLink())
                 .setDescription("Онлайн събитие | Безплатно")
                 .addField("Дата", seminar.getDate(), true)
                 .addField("Час", seminar.getTime(), true)
                 .addField("Лектори", seminar.getLecturers(), false)
-                .setThumbnail(seminar.getImageUrl())
+                .setThumbnail(imageUrl)
                 .setColor(Color.ORANGE)
                 .addField("SoftUni Discord Community <:softuni:926272135255707718>", "", false)
                 .build();

@@ -13,9 +13,4 @@ import java.util.Map;
 public class ValuableMaterialsProperties {
 
     private Map<String,String> channels;
-
-    @PostConstruct
-    private void test() {
-        System.out.println();
-    }
 }
