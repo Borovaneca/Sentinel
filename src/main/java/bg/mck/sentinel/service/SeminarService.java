@@ -25,17 +25,15 @@ import static bg.mck.sentinel.constants.Urls.SOFT_UNI_SEMINARS_URL;
 @Service
 public class SeminarService {
 
-    private final GuildProperties guildProperties;
     private SeminarRepository seminarRepository;
     private JDA jda;
     private ValuableMaterialsProperties valuableMaterials;
 
     @Autowired
-    public SeminarService(SeminarRepository seminarRepository, JDA jda, ValuableMaterialsProperties valuableMaterials, GuildProperties guildProperties) {
+    public SeminarService(SeminarRepository seminarRepository, JDA jda, ValuableMaterialsProperties valuableMaterials) {
         this.seminarRepository = seminarRepository;
         this.jda = jda;
         this.valuableMaterials = valuableMaterials;
-        this.guildProperties = guildProperties;
     }
 
 
