@@ -40,7 +40,6 @@ public class GoodSiteListener extends ListenerAdapter implements EventListener {
 
         String allSubdomains = subDomainService.getAllSubDomainsForRegex();
         String regex = "\\b(?:(?<protocol>https?)://)(?:(?<subdomain>)"+ allSubdomains +"\\.)?(?<domain>[a-zA-Z0-9.-]+)\\.(?<end>[a-zA-Z]{2,})(?:/\\S*)?\\b";
-        // docs|icode-example|skill-forge|www|platform|teams|admin|accounts|judge|support
         String message = event.getMessage().getContentRaw();
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);

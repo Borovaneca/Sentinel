@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Objects;
 
 @Configuration
 public class JdaConfig {
@@ -53,11 +55,10 @@ public class JdaConfig {
         guildProperties.getGuilds()
                 .forEach(
                         guildId ->
-                                jda.getGuildById(guildId)
+                                Objects.requireNonNull(jda.getGuildById(guildId))
                                         .updateCommands()
                                         .addCommands(commandProperties.getCommands()).queue()
                 );
-
 
 
         return jda;
