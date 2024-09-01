@@ -3,6 +3,7 @@ package bg.mck.sentinel.service;
 import bg.mck.sentinel.config.ValuableMaterialsProperties;
 import bg.mck.sentinel.entities.Seminar;
 import bg.mck.sentinel.reposotories.SeminarRepository;
+import bg.mck.sentinel.utils.DateChecker;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import bg.mck.sentinel.utils.TextMessages;
 import jakarta.annotation.PostConstruct;
@@ -21,8 +22,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static bg.mck.sentinel.constants.Urls.SOFT_UNI_SEMINARS_URL;
@@ -63,7 +68,9 @@ public class SeminarService {
             for (Element seminarElement : seminarElements) {
                 if (seminars.size() >= 6) break;
                 Seminar seminar = mapToSeminar(seminarElement);
-                seminars.add(seminar);
+                if (DateChecker.checkDateIfItsBefore(seminar.getDate())) {
+                    seminars.add(seminar);
+                }
             }
 
             seminarRepository.saveAll(seminars);

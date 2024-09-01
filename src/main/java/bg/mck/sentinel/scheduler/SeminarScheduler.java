@@ -4,6 +4,7 @@ import bg.mck.sentinel.config.ValuableMaterialsProperties;
 import bg.mck.sentinel.entities.Seminar;
 import bg.mck.sentinel.reposotories.SeminarRepository;
 import bg.mck.sentinel.service.SeminarService;
+import bg.mck.sentinel.utils.DateChecker;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.JDA;
 import org.jsoup.Jsoup;
@@ -58,14 +59,16 @@ public class SeminarScheduler {
             for (Element seminarElement : seminarElements) {
                 Seminar seminar = mapToSeminar(seminarElement);
                 if (!seminars.contains(seminar)) {
-                    valuableMaterialsChannels.getChannels().forEach((guild, channel) -> {
-                        Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(guild)).getTextChannelById(channel))
-                                .sendMessage(getSeminarMessage()).queue();
+                    if (DateChecker.checkDateIfItsBefore(seminar.getDate())) {
+                        valuableMaterialsChannels.getChannels().forEach((guild, channel) -> {
+                            Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(guild)).getTextChannelById(channel))
+                                    .sendMessage(getSeminarMessage()).queue();
 
-                        Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(guild)).getTextChannelById(channel))
-                                .sendMessageEmbeds(EmbeddedMessages.getSeminarMessage(seminar)).queue();
-                    });
-                    repository.save(seminar);
+                            Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(guild)).getTextChannelById(channel))
+                                    .sendMessageEmbeds(EmbeddedMessages.getSeminarMessage(seminar)).queue();
+                        });
+                        repository.save(seminar);
+                    }
                 }
             }
         } catch (Exception e) {
