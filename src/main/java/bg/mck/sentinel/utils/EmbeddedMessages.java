@@ -1,5 +1,6 @@
 package bg.mck.sentinel.utils;
 
+import bg.mck.sentinel.entities.PenalizedUser;
 import bg.mck.sentinel.entities.Seminar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -38,6 +39,38 @@ public class EmbeddedMessages {
                 .setThumbnail(imageUrl)
                 .setColor(Color.ORANGE)
                 .addField("SoftUni Discord Community <:softuni:926272135255707718>", "", false)
+                .build();
+    }
+
+    public static MessageEmbed createPunishmentInfoEmbed() {
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle("User Punishment System");
+        embed.setColor(Color.RED);
+        embed.setDescription("This system allows you to punish users based on the severity of their infractions. " +
+                "Please provide the User ID to administer the appropriate punishment.");
+
+        embed.addField("Punishment Levels",
+                "1. **First Offense:** 1-hour timeout.\n" +
+                        "2. **Second Offense:** 24-hour timeout.\n" +
+                        "3. **Third Offense:** Permanent ban.",
+                false);
+
+        embed.setFooter("Use the provided button to initiate the punishment process.");
+
+        return embed.build();
+    }
+
+    public static MessageEmbed createPunishmentExecutionMessage (PenalizedUser user, String times) {
+        return new EmbedBuilder()
+                .setTitle("🚫 User Punished")
+                .setDescription(String.format("**%s** has been given a punishment for **%s **.\n\n**Reason:** %s\n\n**By:** %s",
+                        user.getAsMentioned(),
+                        times,
+                        user.getReason(),
+                        user.getPunishedBy()
+                        ))
+                .setColor(0xFF0000)
+                .setFooter("Please ensure to follow the community guidelines.")
                 .build();
     }
 }

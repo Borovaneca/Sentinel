@@ -1,4 +1,4 @@
-package bg.mck.sentinel.listeners.commands;
+package bg.mck.sentinel.listeners.slashcommands;
 
 import bg.mck.sentinel.entities.SubDomain;
 import bg.mck.sentinel.service.SubDomainService;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import static bg.mck.sentinel.constants.Replies.SUB_DOMAIN_ADD_SUCCESS;
 import static bg.mck.sentinel.constants.Replies.SUB_DOMAIN_ALREADY_EXISTS;
-import static bg.mck.sentinel.listeners.commands.AddDomainProcessor.OPTION_DOMAIN;
+import static bg.mck.sentinel.listeners.slashcommands.AddDomainProcessor.OPTION_DOMAIN;
 
 @Component
 public class AddSubDomainProcessor implements SlashCommandProcessor {

@@ -1,4 +1,4 @@
-package bg.mck.sentinel.listeners.commands;
+package bg.mck.sentinel.listeners.slashcommands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 

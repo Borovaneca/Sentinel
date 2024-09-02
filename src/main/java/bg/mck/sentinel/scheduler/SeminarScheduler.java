@@ -40,7 +40,7 @@ public class SeminarScheduler {
         this.repository = repository;
     }
 
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 12 12 * * ?")
     public void sendDailyMessage() {
         try {
             BufferedReader in = SeminarService.getConnection();

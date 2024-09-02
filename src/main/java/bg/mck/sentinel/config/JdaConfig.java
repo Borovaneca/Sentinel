@@ -1,10 +1,12 @@
 package bg.mck.sentinel.config;
 
 import bg.mck.sentinel.listeners.EventListener;
+import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -30,6 +32,9 @@ public class JdaConfig {
     @Autowired
     private List<EventListener> listeners;
 
+    @Autowired
+    private List<ListenerAdapter> adapters;
+
     @Value("${BOT_TOKEN}")
     private String BOT_TOKEN;
 
@@ -49,6 +54,7 @@ public class JdaConfig {
                 .enableCache(CacheFlag.ONLINE_STATUS);
 
         listeners.forEach(builder::addEventListeners);
+        adapters.forEach(builder::addEventListeners);
 
         JDA jda = builder.build().awaitReady();
 
@@ -59,7 +65,6 @@ public class JdaConfig {
                                         .updateCommands()
                                         .addCommands(commandProperties.getCommands()).queue()
                 );
-
 
         return jda;
     }

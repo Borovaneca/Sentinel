@@ -1,4 +1,4 @@
-package bg.mck.sentinel.listeners.commands;
+package bg.mck.sentinel.listeners.slashcommands;
 
 import bg.mck.sentinel.service.SubDomainService;
 import bg.mck.sentinel.utils.EmbeddedMessages;

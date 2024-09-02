@@ -1,4 +1,4 @@
-package bg.mck.sentinel.listeners.commands;
+package bg.mck.sentinel.listeners.slashcommands;
 
 import bg.mck.sentinel.service.GoodSiteService;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import static bg.mck.sentinel.constants.Replies.DOMAIN_DOES_NOT_EXIST;
 import static bg.mck.sentinel.constants.Replies.REMOVE_DOMAIN_SUCCESS;
-import static bg.mck.sentinel.listeners.commands.AddDomainProcessor.OPTION_DOMAIN;
+import static bg.mck.sentinel.listeners.slashcommands.AddDomainProcessor.OPTION_DOMAIN;
 
 @Component
 public class RemoveGoodSiteProcessor implements SlashCommandProcessor {
