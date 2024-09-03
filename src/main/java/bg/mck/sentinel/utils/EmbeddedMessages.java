@@ -1,7 +1,6 @@
 package bg.mck.sentinel.utils;
 
 import bg.mck.sentinel.entities.PenalizedUser;
-import bg.mck.sentinel.entities.Seminar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
@@ -27,20 +26,20 @@ public class EmbeddedMessages {
                 .build();
     }
 
-    public static MessageEmbed getSeminarMessage(Seminar seminar) {
-        String imageUrl = seminar.getImageUrl().trim();
-
-        return new EmbedBuilder()
-                .setTitle(seminar.getTitle(), seminar.getLink())
-                .setDescription("Онлайн събитие | Безплатно")
-                .addField("Дата", seminar.getDate(), true)
-                .addField("Час", seminar.getTime(), true)
-                .addField("Лектори", seminar.getLecturers(), false)
-                .setThumbnail(imageUrl)
-                .setColor(Color.ORANGE)
-                .addField("SoftUni Discord Community <:softuni:926272135255707718>", "", false)
-                .build();
-    }
+//    public static MessageEmbed getSeminarMessage(Seminar seminar) {
+//        String imageUrl = seminar.getImageUrl().trim();
+//
+//        return new EmbedBuilder()
+//                .setTitle(seminar.getTitle(), seminar.getLink())
+//                .setDescription("Онлайн събитие | Безплатно")
+//                .addField("Дата", seminar.getDate(), true)
+//                .addField("Час", seminar.getTime(), true)
+//                .addField("Лектори", seminar.getLecturers(), false)
+//                .setThumbnail(imageUrl)
+//                .setColor(Color.ORANGE)
+//                .addField("SoftUni Discord Community <:softuni:926272135255707718>", "", false)
+//                .build();
+//    }
 
     public static MessageEmbed createPunishmentInfoEmbed() {
         EmbedBuilder embed = new EmbedBuilder();

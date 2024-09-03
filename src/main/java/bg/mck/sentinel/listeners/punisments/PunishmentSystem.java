@@ -4,12 +4,9 @@ import bg.mck.sentinel.config.PunishmentChannels;
 import bg.mck.sentinel.entities.PenalizedUser;
 import bg.mck.sentinel.service.PunishmentService;
 import bg.mck.sentinel.utils.EmbeddedMessages;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -20,13 +17,11 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
-import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -58,7 +53,7 @@ public class PunishmentSystem extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
-        if (!Objects.equals(event.getButton().getId(), "punish")) {
+        if (!Objects.equals(event.getButton().getId(), PUNISH_USER_BUTTON_ID)) {
             return;
         }
 
@@ -123,7 +118,9 @@ public class PunishmentSystem extends ListenerAdapter {
                 break;
             case 3:
                 punishmentLogChannel.sendMessageEmbeds(EmbeddedMessages.createPunishmentExecutionMessage(user, "LIFE")).queue();
-                event.getGuild().ban(memberToPunish, 7, TimeUnit.DAYS).queue();
+                event.getJDA().getGuilds().forEach(guild -> {
+                    guild.ban(memberToPunish, 7, TimeUnit.DAYS).queue();
+                });
                 break;
             default:
                 event.reply("Invalid punishment level!").setEphemeral(true).queue();
