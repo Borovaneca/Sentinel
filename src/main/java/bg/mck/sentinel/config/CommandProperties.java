@@ -35,6 +35,9 @@ public class CommandProperties {
            if (hasOptions) {
                slashCommandData.addOptions(options.stream().map(CommandOption::mapToOptionData).toList());
            }
+           if (name.equals("info")) {
+               return slashCommandData;
+           }
            return slashCommandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE));
        }
     }

@@ -26,21 +26,6 @@ public class EmbeddedMessages {
                 .build();
     }
 
-//    public static MessageEmbed getSeminarMessage(Seminar seminar) {
-//        String imageUrl = seminar.getImageUrl().trim();
-//
-//        return new EmbedBuilder()
-//                .setTitle(seminar.getTitle(), seminar.getLink())
-//                .setDescription("Онлайн събитие | Безплатно")
-//                .addField("Дата", seminar.getDate(), true)
-//                .addField("Час", seminar.getTime(), true)
-//                .addField("Лектори", seminar.getLecturers(), false)
-//                .setThumbnail(imageUrl)
-//                .setColor(Color.ORANGE)
-//                .addField("SoftUni Discord Community <:softuni:926272135255707718>", "", false)
-//                .build();
-//    }
-
     public static MessageEmbed createPunishmentInfoEmbed() {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("User Punishment System");
@@ -71,5 +56,22 @@ public class EmbeddedMessages {
                 .setColor(0xFF0000)
                 .setFooter("Please ensure to follow the community guidelines.")
                 .build();
+    }
+
+    public static MessageEmbed getInfoMessage() {
+        EmbedBuilder embed = new EmbedBuilder();
+
+        embed.setTitle("🛡️ **Sentinel Bot Information**")
+                .setDescription("Welcome to the **Sentinel Bot**! A powerful moderation and security bot for managing your server effectively.")
+                .addField("Features", "• 🚫 **Automatic Punishments**\n" +
+                        "• 🧰 **Advanced Moderation Tools**\n" +
+                        "• 🌐 **Subdomain Management**\n" +
+                        "• 🔍 **Site Whitelisting & Blacklisting**", false)
+                .addField("Developed by", "👨‍💻 Developed and maintained by **<@312912204175245333>**", false)
+                .setColor(0xFF4500)
+                .setFooter("Stay safe and secure with Sentinel!", "https://cdn.discordapp.com/avatars/1259631076792467486/3623dda732bf4f43ce0c6b0ecd16959a.png")
+                .setThumbnail("https://cdn.discordapp.com/avatars/1259631076792467486/3623dda732bf4f43ce0c6b0ecd16959a.png");
+
+        return embed.build();
     }
 }
