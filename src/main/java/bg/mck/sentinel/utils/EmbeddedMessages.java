@@ -3,8 +3,10 @@ package bg.mck.sentinel.utils;
 import bg.mck.sentinel.entities.PenalizedUser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
+import java.util.Collection;
 
 public class EmbeddedMessages {
 
@@ -73,5 +75,23 @@ public class EmbeddedMessages {
                 .setThumbnail("https://cdn.discordapp.com/avatars/1259631076792467486/3623dda732bf4f43ce0c6b0ecd16959a.png");
 
         return embed.build();
+    }
+
+    public static MessageEmbed getMemberLeaveMessage(User user) {
+        return new EmbedBuilder()
+                .setTitle("**" + user.getName() + "** has left the server.")
+                .setDescription("User ID: " + user.getId())
+                .setColor(Color.RED)
+                .build();
+    }
+
+    public static MessageEmbed getMemberKickedOrBannedMessage(User kickedUser, User moderator, String reason, boolean kicked) {
+        return new EmbedBuilder()
+                .setTitle("**"+ kickedUser.getName() + "** has been "+ (kicked ? "KICKED" : "BANNED") +" from the server!")
+                .setDescription("User ID: " + kickedUser.getId())
+                .addField((kicked ? "Kicked" : "Banned") +" by: ", moderator.getAsMention(), true)
+                .addField("Reason: ", reason, true)
+                .setColor(Color.RED)
+                .build();
     }
 }

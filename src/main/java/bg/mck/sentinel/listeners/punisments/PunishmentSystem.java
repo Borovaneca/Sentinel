@@ -81,13 +81,13 @@ public class PunishmentSystem extends ListenerAdapter {
             PenalizedUser user = punishmentService.findByUserId(userId);
             if (user != null) {
                 user.setExecutionTime(LocalDateTime.now());
-                user.setPunishedBy(Objects.requireNonNull(event.getMember()).getEffectiveName());
+                user.setPunishedBy(Objects.requireNonNull(event.getMember()).getAsMention());
                 user.setReason(reason);
                 user.setTimesHasBeenPunished(user.getTimesHasBeenPunished() + 1);
                 executePunishment(user, event, memberToPunish);
             } else {
                 PenalizedUser newUserToPunish = PenalizedUser.builder()
-                        .punishedBy(Objects.requireNonNull(event.getMember()).getEffectiveName())
+                        .punishedBy(Objects.requireNonNull(event.getMember()).getAsMention())
                         .executionTime(LocalDateTime.now())
                         .timesHasBeenPunished(1)
                         .reason(reason)
@@ -119,11 +119,11 @@ public class PunishmentSystem extends ListenerAdapter {
             case 3:
                 punishmentLogChannel.sendMessageEmbeds(EmbeddedMessages.createPunishmentExecutionMessage(user, "LIFE")).queue();
                 event.getJDA().getGuilds().forEach(guild -> {
-                    guild.ban(memberToPunish, 7, TimeUnit.DAYS).queue();
+                    guild.ban(memberToPunish, 7, TimeUnit.DAYS).reason(user.getReason()).queue();
                 });
                 break;
             default:
-                event.reply("Invalid punishment level!").setEphemeral(true).queue();
+                event.reply("User is already banned!").setEphemeral(true).queue();
                 return;
         }
 

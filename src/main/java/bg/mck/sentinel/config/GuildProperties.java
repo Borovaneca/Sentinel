@@ -12,7 +12,10 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "jda.bot.guild")
 public class GuildProperties {
 
-    private Map<String,String> channels;
+    private Map<String,String> removeChannelsLog;
     private List<String> guilds;
+    private Map<String, String> leavingChannelsLog;
+    private Map<String, String> banChannelsLog;
+    private Map<String, String> kickedChannelsLog;
 
 }
