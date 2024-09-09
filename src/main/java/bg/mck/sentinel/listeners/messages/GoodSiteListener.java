@@ -62,7 +62,6 @@ public class GoodSiteListener extends ListenerAdapter implements EventListener {
                 String memberName = member.getAsMention();
 
                 sendRemovingMessage(event.getGuild(), memberName, guildProperties.getRemoveChannelsLog().get(event.getGuild().getId()), message);
-                ;
                 member.timeoutFor(Duration.ofMillis(10000)).queue();
                 event.getMessage().delete().queue();
             }

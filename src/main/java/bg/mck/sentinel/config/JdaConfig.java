@@ -29,9 +29,6 @@ public class JdaConfig {
     private GuildProperties guildProperties;
 
     @Autowired
-    private List<EventListener> listeners;
-
-    @Autowired
     private List<ListenerAdapter> adapters;
 
     @Value("${BOT_TOKEN}")
@@ -52,7 +49,6 @@ public class JdaConfig {
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(CacheFlag.ONLINE_STATUS);
 
-        listeners.forEach(builder::addEventListeners);
         adapters.forEach(builder::addEventListeners);
 
         JDA jda = builder.build().awaitReady();
