@@ -44,12 +44,11 @@ public class PunishmentSystem extends ListenerAdapter {
 
     @Override
     public void onReady(ReadyEvent event) {
-        return;
-//        event.getJDA().getGuilds()
-//                .forEach(guild -> {
-//                    TextChannel channel = Objects.requireNonNull(guild.getTextChannelById(punishmentChannels.getManagerChannels().get(guild.getId())));
-//                    generateMessage(channel);
-//                });
+        event.getJDA().getGuilds()
+                .forEach(guild -> {
+                    TextChannel channel = Objects.requireNonNull(guild.getTextChannelById(punishmentChannels.getManagerChannels().get(guild.getId())));
+                    generateMessage(channel);
+                });
     }
 
     @Override
