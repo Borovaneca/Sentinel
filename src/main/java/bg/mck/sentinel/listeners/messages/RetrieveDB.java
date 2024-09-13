@@ -2,6 +2,7 @@ package bg.mck.sentinel.listeners.messages;
 
 import bg.mck.sentinel.reposotories.GoodSiteRepository;
 import bg.mck.sentinel.reposotories.SubDomainRepository;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class RetrieveDB extends ListenerAdapter {
 
         contentRaw = contentRaw.split("\\s+")[1];
         if (contentRaw.equals("domains")) {
-            event.getMember().getUser().openPrivateChannel()
+           event.getAuthor().openPrivateChannel()
                     .queue((privateChannel -> {
                         privateChannel.sendMessage("`" + goodSiteRepository.findAll() + "`");
                     }));
 
         } else if (contentRaw.equals("subdomains")) {
-            event.getMember().getUser().openPrivateChannel()
+            event.getAuthor().openPrivateChannel()
                     .queue((privateChannel -> {
                         privateChannel.sendMessage("`" + subDomainRepository.findAll() + "`");
                     }));
