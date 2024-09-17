@@ -1,21 +1,26 @@
+# 🛡️ Sentinel Anti-Phishing Discord Bot
 
-🛡️ Sentinel Anti-Phishing Discord Bot
+
 Sentinel is a powerful anti-phishing bot tailored for the SoftUni Discord Community. It ensures the security of your server by monitoring messages for malicious links or phishing attempts. Equipped with advanced detection algorithms, it provides real-time protection, keeping your community safe.
 
-✨ Features
+## ✨ Features
+
 - **Real-time Message Scanning:** Monitors and detects phishing links in every message.
 - **Role-based Access:** Restricts bot configuration to specific user roles.
 - **Customizable Responses:** Options to delete, warn, or notify admins about threats.
 - **Whitelist/Blacklist Management:** Manage domains allowed or blocked.
 - **Alert System:** Sends notifications to a designated channel or specific users.
 
-⚙️ Getting Started
+## ⚙️ Getting Started
+
 ### Prerequisites
+
 - Java JDK 20+
 - A Discord Bot Token from the Discord Developer Portal
 - Administrative access to your Discord server
 
-🛠️ Installation
+### 🛠️ Installation
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/Borovaneca/sentinel.git
@@ -37,7 +42,8 @@ Sentinel is a powerful anti-phishing bot tailored for the SoftUni Discord Commun
    java -jar target/sentinel.jar
    ```
 
-🔧 Commands
+### 🔧 Commands
+
 Interact with the bot using these commands:
 - `/add-domain <domain>`: Add a domain to the whitelist.
 - `/remove-domain <domain>`: Remove a domain from the whitelist.
@@ -46,11 +52,13 @@ Interact with the bot using these commands:
 - `/all-subdomain`: Show all whitelisted sub-domains.
 - `/info`: Info about the bot.
 
-🛡️ Important Notes
+## 🛡️ Important Notes
+
 - Sentinel is designed specifically for the SoftUni Discord Community and might require customization for other environments.
 - Regularly update the whitelist and blacklist to maintain optimal security.
 
-🤝 Contributing
+## 🤝 Contributing
+
 Contributions are welcome! Follow the GitHub flow:
 1. Fork the repository.
 2. Create a new branch: `git checkout -b feature-name`.
@@ -58,8 +66,10 @@ Contributions are welcome! Follow the GitHub flow:
 4. Push to the branch: `git push origin feature-name`.
 5. Open a pull request.
 
-📜 License
+## 📜 License
+
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
-💬 Community
+## 💬 Community
+
 For support or to report issues, please contact the **SoftUni Discord Community** maintainers or open an issue on GitHub.
