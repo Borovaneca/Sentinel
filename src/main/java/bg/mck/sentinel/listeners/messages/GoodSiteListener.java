@@ -8,7 +8,12 @@ import bg.mck.sentinel.service.SubDomainService;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,17 +45,26 @@ public class GoodSiteListener extends ListenerAdapter implements EventListener {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getAuthor().isBot()) return;
-        Member member = event.getMember();
+        executeValidation(event.getAuthor(), event.getMember(), event.getChannel(), event.getMessage(), event.getGuild(), event);
+    }
+
+    @Override
+    public void onMessageUpdate(MessageUpdateEvent event) {
+        executeValidation(event.getAuthor(), event.getMember(), event.getChannel(), event.getMessage(), event.getGuild(), event);
+    }
+
+    private void executeValidation(User author, Member member2, MessageChannelUnion channel, Message message2, Guild guild, GenericMessageEvent event) {
+        if (author.isBot()) return;
+        Member member = member2;
         if (member == null) return;
         EnumSet<Permission> permissions = member.getPermissions();
         if (permissions.contains(Permission.MESSAGE_MANAGE)) return;
 
-        if (unProtectedChannelProperties.isChannelFreeToUseAllDomain(event.getChannel().getId())) return;
+        if (unProtectedChannelProperties.isChannelFreeToUseAllDomain(channel.getId())) return;
 
         String allSubdomains = subDomainService.getAllSubDomainsForRegex();
         String regex = "\\b(?:(?<protocol>https?)://)(?:(?<subdomain>)" + allSubdomains + "\\.)?(?<domain>[a-zA-Z0-9.-]+)\\.(?<end>[a-zA-Z]{2,})(?:/\\S*)?\\b";
-        String message = event.getMessage().getContentRaw();
+        String message = message2.getContentRaw();
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
 
@@ -61,14 +75,14 @@ public class GoodSiteListener extends ListenerAdapter implements EventListener {
             if (!goodSiteService.isGoodSite(domain)) {
                 String memberName = member.getAsMention();
 
-                sendRemovingMessage(event.getGuild(), memberName, guildProperties.getRemoveChannelsLog().get(event.getGuild().getId()), message);
+                sendRemovingMessage(guild, memberName, guildProperties.getRemoveChannelsLog().get(guild.getId()), event.getChannel().getAsMention(), message);
                 member.timeoutFor(Duration.ofMillis(10000)).queue();
-                event.getMessage().delete().queue();
+                message2.delete().queue();
             }
         }
     }
 
-    private void sendRemovingMessage(Guild guild, String memberName, String channelId, String removedMessage) {
-        guild.getTextChannelById(channelId).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, memberName, removedMessage)).queue();
+    private void sendRemovingMessage(Guild guild, String memberName, String logChannel, String actualChannel, String removedMessage) {
+        Objects.requireNonNull(guild.getTextChannelById(logChannel)).sendMessage(String.format(BAD_URL_DETECTED_MESSAGE, memberName, actualChannel, removedMessage)).queue();
     }
 }
