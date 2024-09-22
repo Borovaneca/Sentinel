@@ -5,6 +5,7 @@ import bg.mck.sentinel.entities.PenalizedUser;
 import bg.mck.sentinel.service.PunishmentService;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -154,7 +155,9 @@ public class PunishmentSystem extends ListenerAdapter {
         MessageEmbed embed = createPunishmentInfoEmbed();
         channel.sendMessageEmbeds(embed)
                 .setActionRow(
-                        Button.danger("punish", "Punishment")
+                        Button.danger("punish", "Punishment"),
+                        Button.primary("lock", "Lock Ch."),
+                        Button.success("unlock", "Unlock Ch.")
                 ).queue();
     }
 }
