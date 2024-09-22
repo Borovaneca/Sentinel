@@ -31,7 +31,7 @@ public class JdaConfig {
     @Autowired
     private List<ListenerAdapter> adapters;
 
-    @Value("${BOT_TOKEN}")
+    @Value("${SENTINEL_TOKEN}")
     private String BOT_TOKEN;
 
     @Bean

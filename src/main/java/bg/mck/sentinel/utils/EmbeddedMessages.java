@@ -2,8 +2,10 @@ package bg.mck.sentinel.utils;
 
 import bg.mck.sentinel.entities.PenalizedUser;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.awt.*;
 import java.util.Collection;
@@ -93,5 +95,48 @@ public class EmbeddedMessages {
                 .addField("Reason: ", reason, true)
                 .setColor(Color.RED)
                 .build();
+    }
+
+    public static MessageEmbed getLockByModeratorMessage(Member moderator) {
+        return new EmbedBuilder()
+                .setTitle(":lock: Channels Locked")
+                .setColor(Color.RED)
+                .setDescription("A channels has been locked by a moderator.")
+                .addField("Moderator", moderator.getAsMention(), true)
+                .setFooter("Lock Action Logged", null)
+                .build();
+    }
+
+    public static MessageEmbed getChannelsClosedLogMessage() {
+        return new EmbedBuilder()
+        .setTitle("🚨 Channels Closed for Exam")
+                .setDescription("""
+                        The channels have been **LOCKER** for the duration of the exam.
+                        Text and voice channels are now restricted until the exam is over.""")
+                .setColor(Color.RED)
+                .setFooter("Channels will be unlocked after the exam ends.")
+                .build();
+    }
+
+    public static MessageEmbed getChannelsOpenedLogMessage() {
+        return new EmbedBuilder()
+                .setTitle("✅ Channels Reopened")
+                .setDescription("""
+                        The channels have been **UNLOCKED** after the exam.
+                        Text and voice channels are now available again for all users.""")
+                .setColor(Color.GREEN)
+                .setFooter("Thank you for your patience during the exam period!")
+                .build();
+    }
+
+    public static MessageEmbed getUnlockByModeratorMessage(Member member) {
+        return new EmbedBuilder()
+                .setTitle(":unlock: Channels Unlocked")
+                .setColor(Color.GREEN)
+                .setDescription("A channels has been unlocked by a moderator.")
+                .addField("Moderator", member.getAsMention(), true)
+                .setFooter("Unlock Action Logged", null)
+                .build();
+
     }
 }
