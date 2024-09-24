@@ -1,6 +1,8 @@
 package bg.mck.sentinel.listeners.messages;
 
-import bg.mck.sentinel.config.GuildProperties;
+import bg.mck.sentinel.config.guilds.CategoryProperties;
+import bg.mck.sentinel.config.guilds.GuildProperties;
+import bg.mck.sentinel.config.guilds.RoleProperties;
 import bg.mck.sentinel.service.ChannelsService;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.Permission;
@@ -18,6 +20,10 @@ public class ChannelsUnlockListener extends ListenerAdapter {
 
     @Autowired
     private GuildProperties guildProperties;
+    @Autowired
+    private RoleProperties roleProperties;
+    @Autowired
+    private CategoryProperties categoryProperties;
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
@@ -30,7 +36,7 @@ public class ChannelsUnlockListener extends ListenerAdapter {
         }
 
         Guild guild = event.getGuild();
-        ChannelsService channelsService = new ChannelsService(event.getJDA(), guildProperties);
+        ChannelsService channelsService = new ChannelsService(event.getJDA(), guildProperties, roleProperties, categoryProperties);
         event.deferReply(true)
                 .queue(interactionHook -> {
                     interactionHook.sendMessage("Unlocking channels... Please wait.")

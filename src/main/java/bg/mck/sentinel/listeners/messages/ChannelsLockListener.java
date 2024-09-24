@@ -1,16 +1,14 @@
 package bg.mck.sentinel.listeners.messages;
 
-import bg.mck.sentinel.config.GuildProperties;
+import bg.mck.sentinel.config.guilds.CategoryProperties;
+import bg.mck.sentinel.config.guilds.GuildProperties;
+import bg.mck.sentinel.config.guilds.RoleProperties;
 import bg.mck.sentinel.service.ChannelsService;
 import bg.mck.sentinel.utils.EmbeddedMessages;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +21,10 @@ public class ChannelsLockListener extends ListenerAdapter {
 
     @Autowired
     private GuildProperties guildProperties;
+    @Autowired
+    private RoleProperties roleProperties;
+    @Autowired
+    private CategoryProperties categoryProperties;
 
 
     @Override
@@ -36,7 +38,7 @@ public class ChannelsLockListener extends ListenerAdapter {
         }
 
         Guild guild = event.getGuild();
-        ChannelsService channelsService = new ChannelsService(event.getJDA(), guildProperties);
+        ChannelsService channelsService = new ChannelsService(event.getJDA(), guildProperties, roleProperties, categoryProperties);
 
         event.deferReply(true)
                 .queue(interactionHook -> {

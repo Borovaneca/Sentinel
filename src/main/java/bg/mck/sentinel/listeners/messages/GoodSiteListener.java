@@ -1,7 +1,7 @@
 package bg.mck.sentinel.listeners.messages;
 
-import bg.mck.sentinel.config.GuildProperties;
-import bg.mck.sentinel.config.UnProtectedChannelProperties;
+import bg.mck.sentinel.config.guilds.GuildProperties;
+import bg.mck.sentinel.config.punishment.UnProtectedChannelProperties;
 import bg.mck.sentinel.listeners.EventListener;
 import bg.mck.sentinel.service.GoodSiteService;
 import bg.mck.sentinel.service.SubDomainService;

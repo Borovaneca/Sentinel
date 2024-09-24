@@ -1,4 +1,4 @@
-package bg.mck.sentinel.config;
+package bg.mck.sentinel.config.punishment;
 
 import lombok.Getter;
 import lombok.Setter;

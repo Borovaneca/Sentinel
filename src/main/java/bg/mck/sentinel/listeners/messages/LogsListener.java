@@ -1,6 +1,6 @@
 package bg.mck.sentinel.listeners.messages;
 
-import bg.mck.sentinel.config.GuildProperties;
+import bg.mck.sentinel.config.guilds.GuildProperties;
 import bg.mck.sentinel.utils.EmbeddedMessages;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.audit.AuditLogEntry;

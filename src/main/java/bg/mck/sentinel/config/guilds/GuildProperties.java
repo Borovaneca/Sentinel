@@ -1,4 +1,4 @@
-package bg.mck.sentinel.config;
+package bg.mck.sentinel.config.guilds;
 
 import bg.mck.sentinel.constants.GuildName;
 import lombok.Getter;
@@ -18,7 +18,6 @@ public class GuildProperties {
     private Map<String, String> leavingChannelsLog;
     private Map<String, String> banChannelsLog;
     private Map<String, String> kickedChannelsLog;
-    private Map<String, List<String>> textChannelsToLock;
     private Map<String, String> voiceChannelsToLock;
     private Map<String, String> logsChannels;
     private Map<GuildName, String> guildIdByName;
