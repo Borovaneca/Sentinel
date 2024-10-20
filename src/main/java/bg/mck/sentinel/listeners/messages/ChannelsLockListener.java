@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,6 @@ import java.util.Objects;
 @Component
 public class ChannelsLockListener extends ListenerAdapter {
 
-
     @Autowired
     private GuildProperties guildProperties;
     @Autowired
@@ -26,42 +26,57 @@ public class ChannelsLockListener extends ListenerAdapter {
     @Autowired
     private CategoryProperties categoryProperties;
 
-
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
-        if (!event.getButton().getId().equals("lock")) return;
-
+        String buttonId = event.getButton().getId();
         Member member = event.getMember();
+        Guild guild = event.getGuild();
+
         if (!Objects.requireNonNull(member).hasPermission(Permission.MESSAGE_MANAGE)) {
             event.reply("You don't have permission to use this button!").setEphemeral(true).queue();
             return;
         }
 
-        Guild guild = event.getGuild();
-        ChannelsService channelsService = new ChannelsService(event.getJDA(), guildProperties, roleProperties, categoryProperties);
+        if (buttonId.equals("lock")) {
+            event.reply("Are you sure you want to lock all channels?")
+                    .addActionRow(
+                            Button.danger("confirm_lock", "Yes"),
+                            Button.secondary("cancel_lock", "No")
+                    ).setEphemeral(true).queue();
+            return;
+        }
 
-        event.deferReply(true)
-                .queue(interactionHook -> {
-                    interactionHook.sendMessage("Locking channels... This might take a while.")
-                            .setEphemeral(true)
-                            .queue();
+        if (buttonId.equals("confirm_lock")) {
+            ChannelsService channelsService = new ChannelsService(event.getJDA(), guildProperties, roleProperties, categoryProperties);
 
-                    new Thread(() -> {
-                        try {
-                            channelsService.lockChannels(guild, true);
-                            interactionHook.sendMessage("Channels have been successfully locked!")
-                                    .setEphemeral(true)  // Make this message ephemeral
-                                    .queue();
+            event.deferReply(true)
+                    .queue(interactionHook -> {
+                        interactionHook.sendMessage("Locking channels... This might take a while.")
+                                .setEphemeral(true)
+                                .queue();
 
-                            guild.getTextChannelById(guildProperties.getLogsChannels().get(guild.getId()))
-                                    .sendMessageEmbeds(EmbeddedMessages.getLockByModeratorMessage(member))
-                                    .queue();
-                        } catch (Exception e) {
-                            interactionHook.sendMessage("An error occurred while locking the channels.")
-                                    .setEphemeral(true)
-                                    .queue();
-                        }
-                    }).start();
-                });
+                        new Thread(() -> {
+                            try {
+                                channelsService.lockChannels(guild, true);
+                                interactionHook.sendMessage("Channels have been successfully locked!")
+                                        .setEphemeral(true)
+                                        .queue();
+
+                                guild.getTextChannelById(guildProperties.getLogsChannels().get(guild.getId()))
+                                        .sendMessageEmbeds(EmbeddedMessages.getLockByModeratorMessage(member))
+                                        .queue();
+                            } catch (Exception e) {
+                                interactionHook.sendMessage("An error occurred while locking the channels.")
+                                        .setEphemeral(true)
+                                        .queue();
+                            }
+                        }).start();
+                    });
+            return;
+        }
+
+        if (buttonId.equals("cancel_lock")) {
+            event.reply("Channel lock action has been cancelled.").setEphemeral(true).queue();
+        }
     }
 }
