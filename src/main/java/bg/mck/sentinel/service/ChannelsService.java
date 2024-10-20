@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
@@ -29,6 +30,7 @@ public class ChannelsService {
     private RoleProperties roleProperties;
     private CategoryProperties categoryProperties;
 
+    @Autowired
     public ChannelsService(JDA jda, GuildProperties guildProperties, RoleProperties roleProperties, CategoryProperties categoryProperties) {
         this.jda = jda;
         this.guildProperties = guildProperties;
@@ -97,22 +99,48 @@ public class ChannelsService {
             }
         });
 
-        javaCategory.getManager().putPermissionOverride(javaRole, allow, deny).queue();
-        csharpCategory.getManager().putPermissionOverride(csharpRole, allow, deny).queue();
+        javaCategory.getManager()
+                .putPermissionOverride(javaRole, allow, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(cplusplusRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny).queue();
+
+        csharpCategory.getManager()
+                .putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(csharpRole, allow, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(cplusplusRole, null, deny).queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        javascriptCategory.getManager().putPermissionOverride(javascriptRole, allow, deny).queue();
-        pythonCategory.getManager().putPermissionOverride(pythonRole, allow, deny).queue();
+        javascriptCategory.getManager()
+                .putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(javascriptRole, allow, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(cplusplusRole, null, deny).queue();
+        pythonCategory.getManager()
+                .putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, allow, deny)
+                .putPermissionOverride(cplusplusRole, null, deny).queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        cplusplusCategory.getManager().putPermissionOverride(cplusplusRole, allow, deny).queue();
+        cplusplusCategory.getManager()
+                .putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(cplusplusRole, allow, deny).queue();
 
         improvement.getManager()
                 .putPermissionOverride(javaRole, allow, deny)
@@ -155,15 +183,31 @@ public class ChannelsService {
             }
         });
 
-        javaCategory.getManager().putPermissionOverride(javaRole, allow, deny).queue();
-        csharpCategory.getManager().putPermissionOverride(csharpRole, allow, deny).queue();
+        javaCategory.getManager().putPermissionOverride(javaRole, allow, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .queue();
+        csharpCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(csharpRole, allow, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        javascriptCategory.getManager().putPermissionOverride(javascriptRole, allow, deny).queue();
-        pythonCategory.getManager().putPermissionOverride(pythonRole, allow, deny).queue();
+        javascriptCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, allow, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .queue();
+        pythonCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(pythonRole, allow, deny)
+                .queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -203,6 +247,7 @@ public class ChannelsService {
         Role cplusplusRole = guild.getRoleById(roleProperties.getBasics().get(BasicsRole.CPLUSPLUS));
 
         EnumSet<Permission> allow = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
+        EnumSet<Permission> deny = EnumSet.of(Permission.VIEW_CHANNEL);
 
         categoryProperties.getBasicsRandomChannelsToLock().forEach(channelId -> {
             guild.getTextChannelById(channelId).getManager()
@@ -218,23 +263,43 @@ public class ChannelsService {
             }
         });
 
-        javaCategory.getManager().putPermissionOverride(javaRole, allow, null).queue();
-        csharpCategory.getManager().putPermissionOverride(csharpRole, allow, null).queue();
+        javaCategory.getManager().putPermissionOverride(javaRole, allow, null)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(cplusplusRole, null, null).queue();
+        csharpCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(csharpRole, allow, null)
+                .putPermissionOverride(cplusplusRole, null, deny).queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        javascriptCategory.getManager().putPermissionOverride(javascriptRole, allow, null).queue();
-        pythonCategory.getManager().putPermissionOverride(pythonRole, allow, null).queue();
+        javascriptCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, allow, null)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(cplusplusRole, null, deny).queue();
+        pythonCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, allow, null)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(cplusplusRole, null, deny).queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        cplusplusCategory.getManager().putPermissionOverride(cplusplusRole, allow, null).queue();
+        cplusplusCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(cplusplusRole, allow, null).queue();
         improvement.getManager()
                 .putPermissionOverride(javaRole, allow, null)
                 .putPermissionOverride(javascriptRole, allow, null)
@@ -260,6 +325,7 @@ public class ChannelsService {
         Role pythonRole = guild.getRoleById(roleProperties.getFundamentals().get(FundamentalsRole.PYTHON));
 
         EnumSet<Permission> allow = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
+        EnumSet<Permission> deny = EnumSet.of(Permission.VIEW_CHANNEL);
 
         categoryProperties.getFundamentalsRandomChannelsToLock().forEach(channelId -> {
             guild.getTextChannelById(channelId).getManager()
@@ -274,27 +340,43 @@ public class ChannelsService {
             }
         });
 
-        javaCategory.getManager().putPermissionOverride(javaRole, allow, null).queue();
-        csharpCategory.getManager().putPermissionOverride(csharpRole, allow, null).queue();
+        javaCategory.getManager().putPermissionOverride(javaRole, allow, null)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .queue();
+        csharpCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(csharpRole, allow, null)
+                .putPermissionOverride(pythonRole, null, deny)
+                .queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        javascriptCategory.getManager().putPermissionOverride(javascriptRole, allow, null).queue();
-        pythonCategory.getManager().putPermissionOverride(pythonRole, allow, null).queue();
+        javascriptCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, allow, null)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(pythonRole, null, deny)
+                .queue();
+        pythonCategory.getManager().putPermissionOverride(javaRole, null, deny)
+                .putPermissionOverride(javascriptRole, null, deny)
+                .putPermissionOverride(csharpRole, null, deny)
+                .putPermissionOverride(pythonRole, allow, null)
+                .queue();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        common.getManager()
-                .putPermissionOverride(javaRole, allow, null)
+        common.getManager().putPermissionOverride(javaRole, allow, null)
                 .putPermissionOverride(javascriptRole, allow, null)
-                .putPermissionOverride(pythonRole, allow, null)
                 .putPermissionOverride(csharpRole, allow, null)
+                .putPermissionOverride(pythonRole, allow, null)
                 .queue();
+
 
         improvement.getManager()
                 .putPermissionOverride(javaRole, allow, null)
